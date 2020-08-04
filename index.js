@@ -46,7 +46,7 @@ function createClient(port, host, opts, connectionListener) {
 
     let socket = net.createConnection(port, host, () => {
         socket.setTimeout(0);
-        client.connect(connectionListener);
+        client.connect(null);
     });
 
     socket.setTimeout(20000);
@@ -62,6 +62,7 @@ function createClient(port, host, opts, connectionListener) {
     }
 
     opts.stream = socket;
+    opts.connectionListener = connectionListener;
 
     let client = new SessionControlClient(opts);
 

@@ -219,6 +219,8 @@ class SessionControlClient extends EventEmitter {
 
         this.stream = opts.stream;
 
+        this.opts.connectionListener(this);
+
         this.stream.on("error", (err) => {
             debug("SessionControlClient stream_error", err);
             // this.emit("error", err);
