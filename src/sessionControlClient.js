@@ -221,6 +221,20 @@ class SessionControlClient extends EventEmitter {
 
         opts.connectionListener(this);
 
+        this.stream.setTimeout(20000);
+
+        this.stream.on("timeout", () => {
+            try {
+                let e = new Error("Socket Timeout");
+                e.code = "SOCKET_TIMEOUT";
+                e.address = opts.host;
+                e.port = opts.port;
+                this.close(e);
+            }catch (e) {
+                console.error(`onTimeout: ${e}`);
+            }
+        });
+
         this.stream.on("error", (err) => {
             debug("SessionControlClient stream_error", err);
             // this.emit("error", err);

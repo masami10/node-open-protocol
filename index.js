@@ -49,18 +49,6 @@ function createClient(port, host, opts, connectionListener) {
         client.connect(null);
     });
 
-    socket.setTimeout(20000);
-
-    socket.once("timeout", () => onTimeout());
-
-    function onTimeout() {
-        let e = new Error("Socket Timeout");
-        e.code = "SOCKET_TIMEOUT";
-        e.address = host;
-        e.port = port;
-        client.emit("error", e);
-    }
-
     opts.stream = socket;
     opts.connectionListener = connectionListener;
 
